@@ -1,18 +1,18 @@
 import psutil
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QComboBox, QMessageBox, QScrollArea, QListWidget, QListWidgetItem, QAbstractItemView
+import GPUtil
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QComboBox, QMessageBox, QScrollArea, QListWidget, QListWidgetItem, QAbstractItemView, QGroupBox
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QCursor
 
-class ProcessManager(QWidget):
+class pythonhacker1(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Python-Hacker 1')
-        self.setGeometry(100, 100, 400, 400)
-        self.setFixedSize(400, 400)
+        self.setWindowTitle('PythonHacker1')
+        self.setGeometry(100, 100, 600, 400)
         self.setStyleSheet("background-color: #36393F;")
 
         self.process_label = QLabel('Process List', self)
@@ -55,6 +55,43 @@ class ProcessManager(QWidget):
         self.exit_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.exit_button.clicked.connect(self.close)
 
+        self.cpu_label = QLabel('CPU Usage:', self)
+        self.cpu_label.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.cpu_usage = QLabel(self)
+        self.cpu_usage.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.ram_label = QLabel('RAM Usage:', self)
+        self.ram_label.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.ram_usage = QLabel(self)
+        self.ram_usage.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.network_label = QLabel('NETWORK Usage:', self)
+        self.network_label.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.network_usage = QLabel(self)
+        self.network_usage.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.disk_label = QLabel('DISK Usage:', self)
+        self.disk_label.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.disk_usage = QLabel(self)
+        self.disk_usage.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+
+        self.usage_group = QGroupBox('', self)
+        self.usage_group.setStyleSheet("color: #FFFFFF; font-size: 14px; margin-left: 10px;")
+        usage_layout = QVBoxLayout()
+        usage_layout.addWidget(self.cpu_label)
+        usage_layout.addWidget(self.cpu_usage)
+        usage_layout.addWidget(self.ram_label)
+        usage_layout.addWidget(self.ram_usage)
+        usage_layout.addWidget(self.network_label)
+        usage_layout.addWidget(self.network_usage)
+        usage_layout.addWidget(self.disk_label)
+        usage_layout.addWidget(self.disk_usage)
+        self.usage_group.setLayout(usage_layout)
+
         layout = QVBoxLayout()
         layout.addWidget(self.process_label)
         layout.addWidget(self.search_label)
@@ -65,6 +102,7 @@ class ProcessManager(QWidget):
         layout.addWidget(self.pid_input)
         layout.addWidget(self.kill_button)
         layout.addWidget(self.exit_button)
+        layout.addWidget(self.usage_group)
 
         self.setLayout(layout)
 
@@ -86,6 +124,21 @@ class ProcessManager(QWidget):
                 pass
         self.filter_processes(self.search_input.text())
 
+        # Get CPU and RAM usage
+        cpu_percent = psutil.cpu_percent()
+        ram_percent = psutil.virtual_memory().percent
+
+        self.cpu_usage.setText(f'{cpu_percent}%')
+        self.ram_usage.setText(f'{ram_percent}%')
+
+        # Get Network usage
+        network_usage = psutil.net_io_counters()
+        self.network_usage.setText(f'{network_usage.bytes_sent / 1024 / 1024:.2f} MB / {network_usage.bytes_recv / 1024 / 1024:.2f} MB')
+
+        # Get Disk usage
+        disk_usage = psutil.disk_usage('/')
+        self.disk_usage.setText(f'{disk_usage.used / 1024 / 1024:.2f} MB / {disk_usage.total / 1024 / 1024:.2f} MB')
+
     def filter_processes(self, query):
         self.process_list.clear()
         for process_info in self.processes:
@@ -105,6 +158,6 @@ class ProcessManager(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    process_manager = ProcessManager()
+    process_manager = pythonhacker1()
     process_manager.show()
     sys.exit(app.exec_())

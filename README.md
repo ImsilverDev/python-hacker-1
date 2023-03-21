@@ -20,6 +20,12 @@ The script will open a window displaying a list of running processes. You can se
 
 The process list is updated every second, so you can see any new processes that start or existing processes that end.
 
+## Images
+
+![image](https://user-images.githubusercontent.com/44844515/226636855-2f3310ee-ab0c-4ce0-9d65-c80133902ae5.png)
+![image](https://user-images.githubusercontent.com/44844515/226636986-b1229953-79a7-479f-948d-947fe91355c8.png)
+
+
 ## License
 
 This script is licensed under the MIT License. Feel free to use and modify it as you see fit.

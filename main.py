@@ -1,17 +1,20 @@
 import psutil
 import sys
-import GPUtil
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QComboBox, QMessageBox, QScrollArea, QListWidget, QListWidgetItem, QAbstractItemView, QGroupBox
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout,
+    QComboBox, QMessageBox, QScrollArea, QListWidget, QListWidgetItem, QAbstractItemView, QGroupBox
+)
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QCursor
 
-class pythonhacker1(QWidget):
+
+class PythonHacker1(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
-        self.setWindowTitle('PythonHacker1')
+    def init_ui(self):
+        self.setWindowTitle('Python Hacker 1')
         self.setGeometry(100, 100, 600, 400)
         self.setStyleSheet("background-color: #36393F;")
 
@@ -158,6 +161,6 @@ class pythonhacker1(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    process_manager = pythonhacker1()
+    process_manager = PythonHacker1()
     process_manager.show()
     sys.exit(app.exec_())
